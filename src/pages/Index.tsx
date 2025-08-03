@@ -16,6 +16,7 @@ interface PortfolioEntry {
 const Index = () => {
   const [selectedCoins, setSelectedCoins] = useState<string[]>(["bitcoin", "ethereum", "cardano"]);
   const [portfolio, setPortfolio] = useState<PortfolioEntry[]>([]);
+  const [marketStatsCoin, setMarketStatsCoin] = useState<string>("bitcoin");
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -25,7 +26,7 @@ const Index = () => {
           <p className="text-muted-foreground">Track your investments and get AI-powered insights</p>
         </header>
         
-        <MarketStats />
+        <MarketStats selectedCoin={marketStatsCoin} onCoinChange={setMarketStatsCoin} />
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <CoinSelector 
