@@ -1,18 +1,23 @@
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
-const fetchCryptoData = async () => {
-  const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1&sparkline=false');
+const fetchCryptoData = async (coinIds: string[] = []) => {
+  const coinList = coinIds.length > 0 ? coinIds.join(',') : 'bitcoin,ethereum,cardano,solana,polkadot';
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinList}&order=market_cap_desc&per_page=10&page=1&sparkline=false`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
   return response.json();
 };
 
-const CryptoList = () => {
+interface CryptoListProps {
+  selectedCoins?: string[];
+}
+
+const CryptoList = ({ selectedCoins = [] }: CryptoListProps) => {
   const { data: cryptos, isLoading } = useQuery({
-    queryKey: ['cryptos'],
-    queryFn: fetchCryptoData,
+    queryKey: ['cryptos', selectedCoins],
+    queryFn: () => fetchCryptoData(selectedCoins),
     refetchInterval: 30000, // Refetch every 30 seconds
   });
 
