@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, Bot, User, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Message {
   id: string;
@@ -16,9 +17,12 @@ interface Message {
 
 interface AIChatInterfaceProps {
   portfolio: Array<{
-    coin: string;
+    id: string;
+    coin_id: string;
+    coin_name: string;
     amount: number;
-    avgBuyPrice: number;
+    avg_buy_price: number;
+    buy_date: string;
   }>;
   selectedCoins: string[];
 }
@@ -29,9 +33,75 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Load conversation history when user logs in
+  useEffect(() => {
+    if (user && isOpen) {
+      loadConversationHistory();
+    }
+  }, [user, isOpen]);
+
+  const loadConversationHistory = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('conversation_history')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(20); // Load last 20 messages
+
+      if (error) throw error;
+
+      if (data) {
+        const formattedMessages: Message[] = data.map(msg => ({
+          id: msg.id,
+          content: msg.message,
+          role: msg.role as "user" | "assistant",
+          timestamp: new Date(msg.created_at),
+        }));
+        
+        setMessages(formattedMessages);
+      }
+    } catch (error) {
+      console.error('Error loading conversation history:', error);
+    }
+  };
+
+  const saveMessageToHistory = async (message: string, role: "user" | "assistant") => {
+    if (!user) return;
+
+    try {
+      await supabase
+        .from('conversation_history')
+        .insert({
+          user_id: user.id,
+          message,
+          role,
+          context: {
+            portfolio_count: portfolio.length,
+            tracked_coins_count: selectedCoins.length,
+            timestamp: new Date().toISOString(),
+          },
+        });
+    } catch (error) {
+      console.error('Error saving message to history:', error);
+    }
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+
+    if (!user) {
+      toast({
+        title: "Sign In Required",
+        description: "Please sign in to chat with the AI assistant.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Check if portfolio is empty and remind user
     if (portfolio.length === 0) {
@@ -53,6 +123,9 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    // Save user message to history
+    await saveMessageToHistory(input, "user");
 
     try {
       // Call Supabase Edge Function to interact with Gemini
@@ -78,6 +151,9 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      
+      // Save AI response to history
+      await saveMessageToHistory(data.response, "assistant");
     } catch (error) {
       console.error('Error:', error);
       toast({
