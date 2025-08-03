@@ -14,7 +14,129 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      conversation_history: {
+        Row: {
+          context: Json | null
+          created_at: string
+          id: string
+          message: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          message: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          message?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      portfolio_entries: {
+        Row: {
+          amount: number
+          avg_buy_price: number
+          buy_date: string | null
+          coin_id: string
+          coin_name: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          avg_buy_price: number
+          buy_date?: string | null
+          coin_id: string
+          coin_name: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          avg_buy_price?: number
+          buy_date?: string | null
+          coin_id?: string
+          coin_name?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          investment_horizon: string | null
+          risk_tolerance: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          investment_horizon?: string | null
+          risk_tolerance?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          investment_horizon?: string | null
+          risk_tolerance?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tracked_coins: {
+        Row: {
+          coin_id: string
+          coin_name: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          coin_id: string
+          coin_name: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          coin_id?: string
+          coin_name?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
