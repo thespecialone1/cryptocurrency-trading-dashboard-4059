@@ -48,13 +48,15 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8">
           <CryptoList selectedCoins={selectedCoins} />
-          <AIChatInterface 
-            portfolio={portfolio}
-            selectedCoins={selectedCoins}
-          />
         </div>
+        
+        {/* Floating AI Chat */}
+        <AIChatInterface 
+          portfolio={portfolio}
+          selectedCoins={selectedCoins}
+        />
       </div>
     </div>
   );
