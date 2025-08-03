@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -31,6 +32,16 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
+    // Check if portfolio is empty and remind user
+    if (portfolio.length === 0) {
+      toast({
+        title: "Add Your Portfolio",
+        description: "Please add some cryptocurrency investments to your portfolio first so I can provide personalized insights and predictions.",
+        variant: "default",
+      });
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
@@ -44,24 +55,19 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
 
     try {
       // Call Supabase Edge Function to interact with Gemini
-      const response = await fetch('/api/chat-with-ai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('chat-with-ai', {
+        body: {
           message: input,
           portfolio,
           selectedCoins,
           chatHistory: messages.slice(-10) // Send last 10 messages for context
-        }),
+        }
       });
 
-      if (!response.ok) {
+      if (error) {
+        console.error('Supabase function error:', error);
         throw new Error('Failed to get AI response');
       }
-
-      const data = await response.json();
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),

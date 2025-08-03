@@ -97,9 +97,9 @@ const PortfolioInput = ({ portfolio, onPortfolioChange }: PortfolioInputProps) =
               </div>
               <div className="space-y-2">
                 <label className="text-xs text-muted-foreground opacity-0">Action</label>
-                <Button onClick={addEntry} className="w-full h-10">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add to Portfolio
+                <Button onClick={addEntry} className="w-full h-10 text-sm px-2">
+                  <Plus className="w-4 h-4 mr-1 flex-shrink-0" />
+                  <span className="truncate">Add</span>
                 </Button>
               </div>
             </div>
