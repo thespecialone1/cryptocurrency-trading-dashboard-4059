@@ -189,7 +189,7 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
       {/* Floating AI Chat Interface */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 h-[600px] z-50 animate-slide-up">
-          <Card className="h-full flex flex-col border border-border/50 shadow-2xl bg-background">
+          <Card className="glass-card h-full flex flex-col border border-border/50 shadow-2xl">
             <CardHeader className="pb-3 flex-shrink-0 border-b border-border/30">
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
