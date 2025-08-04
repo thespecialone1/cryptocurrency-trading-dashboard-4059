@@ -188,9 +188,9 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
 
       {/* Floating AI Chat Interface */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] z-50 animate-slide-up">
+        <div className="fixed bottom-6 right-6 w-96 max-h-[600px] z-50 animate-slide-up">
           <Card className="glass-card h-full flex flex-col border border-border/50 shadow-2xl">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-3 flex-shrink-0">
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Bot className="w-5 h-5" />
@@ -206,9 +206,9 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
                 </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 flex flex-col p-3">
-              <ScrollArea className="flex-1 pr-2">
-                <div className="space-y-3">
+            <CardContent className="flex-1 flex flex-col p-3 min-h-0">
+              <ScrollArea className="flex-1 pr-2 min-h-0">
+                <div className="space-y-3 pb-2">
                   {messages.length === 0 && (
                     <div className="text-center text-muted-foreground py-6">
                       <Bot className="w-10 h-10 mx-auto mb-3 opacity-50" />
@@ -254,7 +254,7 @@ const AIChatInterface = ({ portfolio, selectedCoins }: AIChatInterfaceProps) => 
                 </div>
               </ScrollArea>
               
-              <div className="flex gap-2 mt-3 pt-2 border-t border-border/30">
+              <div className="flex gap-2 mt-3 pt-2 border-t border-border/30 flex-shrink-0">
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}

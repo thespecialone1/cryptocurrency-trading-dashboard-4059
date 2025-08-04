@@ -49,6 +49,78 @@ const MarketStats = ({ selectedCoin = "bitcoin", onCoinChange }: MarketStatsProp
       volumeChange: 4.2,
       dominance: "1.1%",
       dominanceChange: -0.2
+    },
+    ripple: {
+      name: "XRP",
+      marketCap: "$32.8B",
+      marketCapChange: 1.8,
+      volume: "$2.1B",
+      volumeChange: -3.2,
+      dominance: "1.4%",
+      dominanceChange: 0.1
+    },
+    binancecoin: {
+      name: "BNB",
+      marketCap: "$96.4B",
+      marketCapChange: 4.2,
+      volume: "$1.8B",
+      volumeChange: 8.7,
+      dominance: "4.1%",
+      dominanceChange: 0.3
+    },
+    dogecoin: {
+      name: "Dogecoin",
+      marketCap: "$18.5B",
+      marketCapChange: 12.3,
+      volume: "$1.2B",
+      volumeChange: 15.6,
+      dominance: "0.8%",
+      dominanceChange: 0.7
+    },
+    polygon: {
+      name: "Polygon",
+      marketCap: "$8.2B",
+      marketCapChange: -2.1,
+      volume: "$450M",
+      volumeChange: 3.4,
+      dominance: "0.4%",
+      dominanceChange: -0.1
+    },
+    chainlink: {
+      name: "Chainlink",
+      marketCap: "$9.8B",
+      marketCapChange: 6.5,
+      volume: "$380M",
+      volumeChange: 11.2,
+      dominance: "0.4%",
+      dominanceChange: 0.2
+    },
+    litecoin: {
+      name: "Litecoin",
+      marketCap: "$7.1B",
+      marketCapChange: 0.9,
+      volume: "$420M",
+      volumeChange: -1.8,
+      dominance: "0.3%",
+      dominanceChange: 0.0
+    },
+    polkadot: {
+      name: "Polkadot",
+      marketCap: "$11.2B",
+      marketCapChange: 3.7,
+      volume: "$320M",
+      volumeChange: 9.1,
+      dominance: "0.5%",
+      dominanceChange: 0.1
+    },
+    avalanche: {
+      name: "Avalanche",
+      marketCap: "$15.3B",
+      marketCapChange: 7.8,
+      volume: "$680M",
+      volumeChange: 14.5,
+      dominance: "0.7%",
+      dominanceChange: 0.4
     }
   };
 
@@ -80,6 +152,14 @@ const MarketStats = ({ selectedCoin = "bitcoin", onCoinChange }: MarketStatsProp
                   <SelectItem value="ethereum">Ethereum (ETH)</SelectItem>
                   <SelectItem value="solana">Solana (SOL)</SelectItem>
                   <SelectItem value="cardano">Cardano (ADA)</SelectItem>
+                  <SelectItem value="ripple">XRP (XRP)</SelectItem>
+                  <SelectItem value="binancecoin">BNB (BNB)</SelectItem>
+                  <SelectItem value="dogecoin">Dogecoin (DOGE)</SelectItem>
+                  <SelectItem value="polygon">Polygon (MATIC)</SelectItem>
+                  <SelectItem value="chainlink">Chainlink (LINK)</SelectItem>
+                  <SelectItem value="litecoin">Litecoin (LTC)</SelectItem>
+                  <SelectItem value="polkadot">Polkadot (DOT)</SelectItem>
+                  <SelectItem value="avalanche">Avalanche (AVAX)</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline" size="sm" onClick={() => setIsCustomizing(false)}>
